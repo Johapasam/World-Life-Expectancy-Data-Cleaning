@@ -37,7 +37,7 @@ Country: Name of the country.
 Year: Year of the data.
 Lifeexpectancy: Life expectancy value.
 Status: Development status ('Developed' or 'Developing').
-Prerequisites
+
 
 
 This project is licensed under the MIT License
