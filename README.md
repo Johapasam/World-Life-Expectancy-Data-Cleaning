@@ -30,38 +30,7 @@ Run the provided SQL scripts in the following order:
 Remove duplicates from the dataset.
 Handle missing values for the Status column.
 Handle missing values for the Lifeexpectancy column.
-Example Queries
 
-Here are some example SQL queries used for cleaning:
-
-Identify duplicates:
-sql
-Copy code
-SELECT Country, Year, COUNT(*) 
-FROM worldlifeexpectancy 
-GROUP BY Country, Year 
-HAVING COUNT(*) > 1;
-Remove duplicates:
-sql
-Copy code
-DELETE FROM worldlifeexpectancy
-WHERE Row_ID IN (
-  SELECT Row_ID FROM (
-    SELECT Row_ID, ROW_NUMBER() OVER (PARTITION BY Country, Year ORDER BY Lifeexpectancy) AS RowNum
-    FROM worldlifeexpectancy
-  ) AS ranked WHERE RowNum > 1
-);
-Fill missing Lifeexpectancy values:
-sql
-Copy code
-UPDATE worldlifeexpectancy t1
-JOIN worldlifeexpectancy t2
-  ON t1.Country = t2.Country AND t1.Year = t2.Year - 1
-JOIN worldlifeexpectancy t3
-  ON t1.Country = t3.Country AND t1.Year = t3.Year + 1
-SET t1.Lifeexpectancy = ROUND((t2.Lifeexpectancy + t3.Lifeexpectancy) / 2, 1)
-WHERE t1.Lifeexpectancy IS NULL;
-Dataset Information
 
 Columns:
 Country: Name of the country.
